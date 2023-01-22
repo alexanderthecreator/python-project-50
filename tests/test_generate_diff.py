@@ -12,5 +12,5 @@ def get_test_jsons():
 
 
 def test_generate_diff(get_test_jsons):
-    assert generate_diff(*get_test_jsons) == '{\n  host: hexlet.io\n- timeout: 50\n+ timeout: 20\n- proxy: ' \
-                                            '123.234.53.22\n- follow: False\n}'
+    f = open('/home/alexander/PycharmProjects/python-project-50/tests/fixtures/result_string.txt')
+    assert generate_diff(*get_test_jsons) == f.read()
