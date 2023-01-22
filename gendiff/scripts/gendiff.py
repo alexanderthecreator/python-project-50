@@ -6,9 +6,10 @@ import yaml
 def get_file(file_path):
     if '.yml' or '.yaml' in file_path:
         file = yaml.safe_load(open(file_path))
+        return file
     elif '.json' in file_path:
         file = json.load(open(file_path))
-    return file
+        return file
 
 
 def generate_diff(file_path1, file_path2):
