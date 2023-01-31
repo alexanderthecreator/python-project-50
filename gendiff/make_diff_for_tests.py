@@ -22,7 +22,7 @@ def get_file(file_path):
     result_list = list1 + list2 + list3
     return result_list'''
 
-
+list_of_dicts = []
 def make_diff(first_file, second_file):
     """Make a diff between two dicts"""
     diff_ = set(first_file) | set(second_file)
@@ -40,8 +40,8 @@ def make_diff(first_file, second_file):
         if item in second_file and item not in first_file:
             list_of_dicts.append({item: second_file[item], 'meta': 'add'})
         if type(first_file.get(item)) == dict and type(second_file.get(item)) == dict:
-            make_diff(first_file[item], second_file[item])
-    print(list_of_dicts)
+            list_of_dicts.extend(make_diff(first_file[item], second_file[item]))
+    #print(list_of_dicts)
     return list_of_dicts
 
 
@@ -49,9 +49,9 @@ def generate_diff(file_path1, file_path2):
     """Make a string from list of diff"""
     first_file = get_file(file_path1)
     second_file = get_file(file_path2)
-    list_ = make_diff(first_file, second_file)
+    list_of_dicts.extend(make_diff(first_file, second_file))
     diff_string = ''
-    for item in list_:
+    for item in list_of_dicts:
         for key in item:
             if key == 'meta':
                 break
@@ -62,7 +62,7 @@ def generate_diff(file_path1, file_path2):
             elif item['meta'] == 'remove':
                 diff_string += f'  - {key}: {item[key]}\n'
     final_diff_string = "{\n" + diff_string.lower() + "}"
-    #print(final_diff_string)
+    print(final_diff_string)
     return final_diff_string
 
 
