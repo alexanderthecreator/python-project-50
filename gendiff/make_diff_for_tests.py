@@ -33,6 +33,8 @@ def make_diff(first_dict, second_dict):
     return result_diff
 
 
+TABULATION = " " * 4
+
 def format_diff(result_diff, indent=1):
     """
     Generate a formatted string representation of the differences between two nested dictionaries
@@ -43,17 +45,17 @@ def format_diff(result_diff, indent=1):
     for diff in sorted_result:
         meta, key, value = diff["meta"], diff["key"], diff["value"]
         if meta == "added":
-            result += f"\n{'    ' * indent}+ {key}: {format_value(value, indent + 1)}"
+            result += f"\n{TABULATION * indent}+ {key}: {format_value(value, indent)}"
         elif meta == "removed":
-            result += f"\n{'    ' * indent}- {key}: {format_value(value, indent + 1)}"
+            result += f"\n{TABULATION * indent}- {key}: {format_value(value, indent)}"
         elif meta == "changed":
-            result += f"\n{'    ' * indent}- {key}: {format_value(value[0], indent + 1)}"
-            result += f"\n{'    ' * indent}+ {key}: {format_value(value[1], indent + 1)}"
+            result += f"\n{TABULATION * indent}- {key}: {format_value(value[0], indent)}"
+            result += f"\n{TABULATION * indent}+ {key}: {format_value(value[1], indent)}"
         elif meta == "unchanged":
-            result += f"\n{'    ' * (indent)}{key}: {format_value(value, indent + 1)}"
+            result += f"\n{TABULATION * (indent)}  {key}: {format_value(value, indent)}"
         elif meta == "nested":
-            result += f"\n{'    ' * (indent)} {key}: {format_diff(value, indent + 1)}"
-    result +=  "\n}"
+            result += f"\n{TABULATION * (indent)}{key}: {format_diff(value, indent + 1)}"
+    result +=  f"\n{TABULATION * (indent - 1)}" + "}"
     #print(sorted_result)
     return result
 
@@ -61,9 +63,13 @@ def format_diff(result_diff, indent=1):
 def format_value(value, indent):
     if isinstance(value, dict):
         for k, v in value.items():
-            substring = f"\n{'    ' * indent} {k}: {v}"
-            subres = "{" + substring + "\n" + "   "*indent + "}"
-            return subres
+            if isinstance(v, dict):
+                subres = format_value(v, indent + 1)
+                return subres
+            else:
+                substring = f"\n{TABULATION * indent}  {k}: {v}"
+                subres = "{" + substring + "\n" + TABULATION*indent + "}"
+                return subres
     elif isinstance(value, str):
         return f"{value}"
     else:
