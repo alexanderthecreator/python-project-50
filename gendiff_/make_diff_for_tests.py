@@ -1,5 +1,6 @@
 import json
 import yaml
+import os
 
 
 def get_file(file_path):
@@ -62,18 +63,22 @@ def format_diff(result_diff, indent=1):
 
 def format_value(value, indent):
     if isinstance(value, dict):
+        sub_res = []
         for k, v in value.items():
             if isinstance(v, dict):
-                subres = format_value(v, indent + 1)
-                return subres
+                sub_res.append(f"{TABULATION * (indent+1)}{k}: {format_value(v, indent + 1)}")
             else:
-                substring = f"\n{TABULATION * indent}  {k}: {v}"
-                subres = "{" + substring + "\n" + TABULATION*indent + "}"
-                return subres
-    elif isinstance(value, str):
-        return f"{value}"
+                sub_res.append(f"{TABULATION * (indent+1)}{k}: {v}")
+        return "{\n" + "\n".join(sub_res) + f"\n{TABULATION * indent}" + "}"
     else:
-        return str(value)
+        if value == True:
+            value = 'true'
+            return value
+        elif value == None:
+            value = 'null'
+            return value
+        else:
+            return str(value)
 
 
 def generate_diff(file_path1, file_path2):
@@ -82,15 +87,16 @@ def generate_diff(file_path1, file_path2):
     second_file = get_file(file_path2)
     str_ = make_diff(first_file, second_file)
     comp = format_diff(str_)
-    print(comp)
+    #print(comp)
     return comp
 
+print(os.getcwd())
 
-f_p1 = '/home/alexander/PycharmProjects/file4.json'
-f_p2 = '/home/alexander/PycharmProjects/file5.json'
+"""f_p1 = '/home/alexander/PycharmProjects/file4.json'
+f_p2 = '/home/alexander/PycharmProjects/file5.json'"""
 
-'''f_p1 = '/tests/fixtures/file1.json'
-f_p2 = '/tests/fixtures/file1.json'''
+f_p1 = '/tests/fixtures/file1.json'
+f_p2 = '/tests/fixtures/file1.json'
 
 
 
