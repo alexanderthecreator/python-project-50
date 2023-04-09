@@ -13,7 +13,7 @@ flake8 = "^6.0.0"
 pyyaml = "^6.0"
 
 [tool.poetry.scripts]
-gendiff = "gendiff.scripts.gendiff:main"
+gendiff = "gendiff_.scripts.gendiff:main"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
