@@ -1,8 +1,8 @@
 import argparse
 import json
 import yaml
-from gendiff_.make_diff import make_diff
-from gendiff_.formatter import format_diff
+from gendiff.make_diff import make_diff
+from gendiff.formatter import format_diff
 
 
 def get_file(file_path):
