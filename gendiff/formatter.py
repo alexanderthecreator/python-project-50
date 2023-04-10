@@ -11,16 +11,16 @@ def format_diff(result_diff, indent=1):
     for diff in sorted_result:
         meta, key, value = diff["meta"], diff["key"], diff["value"]
         if meta == "added":
-            result += f"\n{TABULATION * indent}+ {key}: {format_value(value, indent)}"
+            result += f"\n{TABULATION * (indent-1)}  + {key}: {format_value(value, indent)}"
         elif meta == "removed":
-            result += f"\n{TABULATION * indent}- {key}: {format_value(value, indent)}"
+            result += f"\n{TABULATION * (indent-1)}  - {key}: {format_value(value, indent)}"
         elif meta == "changed":
-            result += f"\n{TABULATION * indent}- {key}: {format_value(value[0], indent)}"
-            result += f"\n{TABULATION * indent}+ {key}: {format_value(value[1], indent)}"
+            result += f"\n{TABULATION * (indent-1)}  - {key}: {format_value(value[0], indent)}"
+            result += f"\n{TABULATION * (indent-1)}  + {key}: {format_value(value[1], indent)}"
         elif meta == "unchanged":
-            result += f"\n{TABULATION * (indent)}  {key}: {format_value(value, indent)}"
+            result += f"\n{TABULATION * (indent)}{key}: {format_value(value, indent)}"
         elif meta == "nested":
-            result += f"\n{TABULATION * (indent)}{key}: {format_diff(value, indent + 1)}"
+            result += f"\n{'    ' * (indent-1)}    {key}: {format_diff(value, indent + 1)}"
     result +=  f"\n{TABULATION * (indent - 1)}" + "}"
     return result
 
@@ -40,6 +40,9 @@ def format_value(value, indent):
             return value
         elif value == None:
             value = 'null'
+            return value
+        elif value == False:
+            value = 'false'
             return value
         else:
             return str(value)
