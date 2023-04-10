@@ -1,3 +1,6 @@
+#!
+
+
 import argparse
 import json
 import yaml
@@ -14,13 +17,13 @@ def get_file(file_path):
 
 
 def generate_diff(file_path1, file_path2):
-    """Init script for functionality tests"""
+    """Init script"""
     first_file = get_file(file_path1)
     second_file = get_file(file_path2)
     str_ = make_diff(first_file, second_file)
-    comp = format_diff(str_)
-    print(comp)
-    return comp
+    result = format_diff(str_)
+    print(result)
+    return result
 
 
 def main():
