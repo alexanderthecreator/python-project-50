@@ -127,11 +127,11 @@ def generate_diff(file_path1, file_path2):
 
 #print(os.getcwd())
 
-f_p1 = '/home/alexander/PycharmProjects/file4.json'
-f_p2 = '/home/alexander/PycharmProjects/file5.json'
+"""f_p1 = '/home/alexander/PycharmProjects/file4.json'
+f_p2 = '/home/alexander/PycharmProjects/file5.json'"""
 
-"""f_p1 = 'gendiff/tests/fixtures/file1.json'
-f_p2 = 'gendiff/tests/fixtures/file2.json'"""
+f_p1 = './fixtures/file4.json'
+f_p2 = './fixtures/file5.json'
 
 
 
